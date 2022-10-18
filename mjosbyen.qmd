@@ -1,0 +1,33 @@
+---
+title: "Trafikkregistreringer i Mjøsbyen"
+format: 
+  html:
+    css: svv.css
+    number-sections: true
+    toc: true
+    toc-location: left
+    df-print: paged
+editor: source
+knitr: 
+  opts_chunk: 
+    echo: false
+---
+
+# Bakgrunn
+
+Her presenteres en oversikt over trafikkregistreringene i Mjøsbyen. Les om området her: <https://www.mjosbyen.no/hva-er-mjosbyen/>.
+
+# Trafikkregistreringer
+
+En liste over alle trafikkregistreringspunkter i området er gitt i tabellen nedenfor.
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| label: table
+2 * 2
+```
