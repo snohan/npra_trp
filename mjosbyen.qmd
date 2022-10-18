@@ -13,6 +13,17 @@ knitr:
     echo: false
 ---
 
+```{r}
+#| label: read
+
+library(DT)
+
+trp_info_mjosbyen <- 
+  readr::read_rds(
+  file = "trp_mjosbyen.rds"
+)
+```
+
 # Bakgrunn
 
 Her presenteres en oversikt over trafikkregistreringene i Mjøsbyen. Les om området her: <https://www.mjosbyen.no/hva-er-mjosbyen/>.
@@ -22,12 +33,28 @@ Her presenteres en oversikt over trafikkregistreringene i Mjøsbyen. Les om omr�
 En liste over alle trafikkregistreringspunkter i området er gitt i tabellen nedenfor.
 
 ```{r}
-1 + 1
+#| label:  table
+
+trp_info_mjosbyen |> 
+  dplyr::select(
+    Punkt = name,
+    Veg = road_category_and_number,
+    Kommune = municipality_name,
+    Oppstart = first_data_with_quality_metrics,
+    Siste = latest_daily_traffic
+  ) |> 
+  dplyr::mutate(
+    Oppstart = as.character(Oppstart)
+  ) |> 
+  DT::datatable(
+    filter = "top",
+    extensions = "Buttons",
+    rownames = FALSE,
+    options = list(
+      dom = "Blfrtip",
+      #buttons = c("excel"),
+      pageLength = 15,
+      lengthMenu = c(15, 50, 100),
+      autoWidth = TRUE))
 ```
 
-You can add options to executable code like this 
-
-```{r}
-#| label: table
-2 * 2
-```

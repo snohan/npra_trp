@@ -70,8 +70,16 @@ trp_mjosbyen <-
       dplyr::case_when(
         latest_daily_traffic == lubridate::today() ~ "I dag",
         TRUE ~ as.character(latest_daily_traffic)
-      )
+      ),
+    name = stringr::str_to_title(name, locale = "nb")
+  ) |>
+  dplyr::arrange(
+    municipality_no,
+    road_reference
   )
 
-
+readr::write_rds(
+  trp_mjosbyen,
+  file = "trp_mjosbyen.rds"
+)
 
