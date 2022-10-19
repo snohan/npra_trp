@@ -6,6 +6,7 @@ format:
     number-sections: true
     toc: true
     toc-location: left
+    toc-title: "Innhold"
     df-print: paged
 editor: source
 knitr: 
@@ -15,27 +16,30 @@ knitr:
 
 ```{r}
 #| label: read
+#| include: false
+#| echo: false
 
+source("H:/Programmering/R/byindeks/rmd_setup.R")
 library(DT)
 
 trp_info_mjosbyen <- 
   readr::read_rds(
-  file = "trp_mjosbyen.rds"
+  file = "mjosbyen.rds"
 )
+#
 ```
-
-# Bakgrunn
 
 Her presenteres en oversikt over trafikkregistreringene i Mjøsbyen. Les om området her: <https://www.mjosbyen.no/hva-er-mjosbyen/>.
 
-# Trafikkregistreringer
 
-En liste over alle trafikkregistreringspunkter i området er gitt i tabellen nedenfor.
+# Tabell
+En liste over alle kontinuerlige trafikkregistreringspunkter i området er gitt i tabellen nedenfor.
 
 ```{r}
 #| label:  table
 
 trp_info_mjosbyen |> 
+  sf::st_drop_geometry() |> 
   dplyr::select(
     Punkt = name,
     Veg = road_category_and_number,
@@ -57,4 +61,16 @@ trp_info_mjosbyen |>
       lengthMenu = c(15, 50, 100),
       autoWidth = TRUE))
 ```
+
+
+# Kart
+Årsdøgntafikken (ÅDT) som registreres i et trafikkregistreringspunkt er representativ over en viss vegstrekning. En slik vegstrekning kalles for en trafikklenke. Trafikklenker med kontinuerlige trafikkregistreringer er vist i kartet nedenfor.
+
+```{r}
+#| label: map
+
+map_links_with_trp(trp_info_mjosbyen)
+```
+
+
 
