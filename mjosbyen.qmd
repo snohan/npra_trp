@@ -8,6 +8,7 @@ format:
     toc-location: left
     toc-title: "Innhold"
     df-print: paged
+    self-contained: true
 editor: source
 knitr: 
   opts_chunk: 
