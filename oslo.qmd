@@ -1,0 +1,78 @@
+---
+title: "Sykkelregistreringer i Osloområdet"
+format: 
+  html:
+    css: svv.css
+    number-sections: true
+    toc: true
+    toc-location: left
+    toc-title: "Innhold"
+    df-print: paged
+    self-contained: true
+editor: source
+knitr: 
+  opts_chunk: 
+    echo: false
+---
+
+```{r}
+#| label: read
+#| include: false
+#| echo: false
+
+source("H:/Programmering/R/byindeks/rmd_setup.R")
+library(DT)
+
+trp_info_oslo <- 
+  readr::read_rds(
+  file = "oslo_bike_trp.rds"
+)
+#
+```
+
+Her presenteres en oversikt over sykkelregistreringene i Osloområdet.
+
+
+# Tabell
+En liste over alle kontinuerlige trafikkregistreringspunkter i området er gitt i tabellen nedenfor.
+
+```{r}
+#| label:  table
+
+trp_info_oslo |> 
+  sf::st_drop_geometry() |> 
+  dplyr::select(
+    Punkt = name,
+    Veg = road_category_and_number,
+    Kommune = municipality_name,
+    Oppstart = first_data_with_quality_metrics,
+    Siste = latest_daily_traffic,
+    Sykkelindeks = city_index
+  ) |> 
+  #dplyr::mutate(
+  #  Oppstart = as.character(Oppstart)
+  #) |> 
+  DT::datatable(
+    filter = "top",
+    extensions = "Buttons",
+    rownames = FALSE,
+    options = list(
+      dom = "Blfrtip",
+      #buttons = c("excel"),
+      pageLength = 15,
+      lengthMenu = c(15, 50, 100),
+      autoWidth = TRUE))
+```
+
+
+# Kart
+Sykkelregistreringspunktene er vist i kartet nedenfor.
+
+```{r}
+#| label: map
+
+map_trp_with_category(trp_info_oslo)
+```
+
+
+
